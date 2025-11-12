@@ -2,7 +2,6 @@ set -euo pipefail
 cd /mnt/c/local-ai-starter
 source ~/.venvs/localai/bin/activate
 
-# Load .env
 set -a
 . ./.env
 set +a
@@ -12,10 +11,8 @@ if [ -n "${HF_TOKEN:-}" ]; then
   export HUGGING_FACE_HUB_TOKEN="$HF_TOKEN"
 fi
 
-# Kill previous if any
 pkill -f "vllm serve" || true
 
-# Start detached with nohup
 nohup vllm serve "${MODEL_ID:-Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4}" \
   --host 0.0.0.0 \
   --port 8000 \
