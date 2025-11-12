@@ -1,7 +1,9 @@
-param([Parameter(Mandatory=$true)][string]$text)
+param(
+  [Parameter(Mandatory=$true, ValueFromRemainingArguments=$true)]
+  [string[]]$text
+)
 $repoRoot = (Resolve-Path "$PSScriptRoot\..").Path
-if ($repoRoot -ne "C:\local-ai-starter") {
-  Write-Host "Переместите репозиторий в C:\local-ai-starter." -ForegroundColor Yellow
-  exit 1
-}
-wsl -e bash -lc "cd /mnt/c/local-ai-starter && ~/.venvs/localai/bin/python3 app/seed_memory.py \"$($text.Replace('"','\"'))\""
+if ($repoRoot -ne "C:\local-ai-starter") { Write-Host "Переместите репозиторий в C:\local-ai-starter."; exit 1 }
+
+$txt = [string]::Join(' ', $text)
+wsl -e env TXT="$txt" bash -lc 'cd /mnt/c/local-ai-starter && ~/.venvs/localai/bin/python3 app/seed_memory.py "$TXT"'
