@@ -12,11 +12,15 @@ def run(question: str) -> str:
     mem = Memory(url=QDRANT_URL, embedding_model=EMB_MODEL)
     context = "\n".join(mem.recall(question, k=5))
     messages = [
-        {"role": "system", "content": "Ты локальный помощник. Используй факты. Краткость."},
-        {"role": "user", "content": f"{question}\n\n[relevant memory]\n{context}"},
+        {"role":"system","content":"Ты локальный помощник. Используй факты. Краткость."},
+        {"role":"user","content":f"{question}\n\n[relevant memory]\n{context}"}
     ]
     cli = OpenAI(base_url=BASE_URL, api_key=API_KEY)
-    resp = cli.chat.completions.create(model=MODEL_ID, messages=messages, temperature=0.2)
+    resp = cli.chat.completions.create(
+        model=MODEL_ID,
+        messages=messages,
+        temperature=0.2,
+    )
     answer = resp.choices[0].message.content.strip()
     mem.remember(f"Q: {question}\nA: {answer[:500]}")
     return answer
