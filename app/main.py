@@ -8,7 +8,9 @@ load_dotenv()
 BASE_URL = os.environ.get("OPENAI_BASE_URL", "http://localhost:8000/v1")
 API_KEY = os.environ.get("OPENAI_API_KEY", "EMPTY")
 MODEL_ID = os.environ.get("MODEL_ID", "Qwen/Qwen2.5-14B-Instruct-GPTQ-Int4")
-EMB_MODEL = os.environ.get("EMBEDDING_MODEL", "intfloat/multilingual-e5-base")
+EMB_MODEL = os.environ.get(
+    "EMBEDDING_MODEL", "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+)
 QDRANT_URL = os.environ.get("QDRANT_URL", "http://localhost:6333")
 
 def run(question: str) -> str:
