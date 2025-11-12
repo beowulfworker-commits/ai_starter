@@ -1,8 +1,11 @@
 from __future__ import annotations
 from typing import List
+from dotenv import load_dotenv
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, PointStruct
 from fastembed import TextEmbedding
+
+load_dotenv()
 
 COLLECTION = "memory"
 
